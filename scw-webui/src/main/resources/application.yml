@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: scw-webui
+  redis:
+    host: 101.132.138.187
+    port: 6379
+    jedis:
+      pool:
+        max-idle: 100
+  session:
+    timeout: 1800
+    store-type: redis 
+  thymeleaf:
+    cache: false
+    #suffix: 
+    #prefix: 
+server:
+  port: 10000
+#  servlet:
+#    context-path: /app
+eureka:
+  instance:
+    appname: scw-webui
+    prefer-ip-address: true   # 支持注册中心使用当前项目的ip地址
+    ip-address: 101.132.138.187  # 将自己的真实的ip地址告诉服务器
+  client:
+    register-with-eureka: true
+    service-url:
+        defaultZone: http://47.93.254.213:8761/eureka/
+feign:
+  httpclient:
+    connection-timeout: 5000
+    
+  hystrix:
+    enabled: true #开启熔断保护功能    
+# 开发中为了方便页面刷新测试，一般会关闭thymeleaf的缓存，正式上线会开启缓存
+# 取消ribbon的重试机制
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 6000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 0

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- 
+	thymeleaf使用步骤：
+		1、项目中依赖thymeleaf
+		2、在yml文件中配置thymeleaf
+		3、在html页面的html标签内指定引用thymeleaf
+		${} 
+			默认获取request域中的属性值： ${requetKey}
+			获取session域中的属性值：${session.sessionKey}
+			获取application域中的属性值：${application.applicationKey}
+			
+		 th:text:用来设置双标签内部的文本内容，属性值支持简单的表达式
+		 	th:text="${application.appKey}==null?_:${application.appKey}"
+		 		从application域中获取appkey对应的属性值，如果没有获取到则不替换原标签内的文本，如果获取到了则替换双标签内部的文本	
+		 th:id="3" :设置标签的id属性值
+		 th:attr="" :设置指定属性的属性值
+		 
+		 thymeleaf:页面路径的写法
+		 	@{绝对路径}  thymeleaf会自动在路径前添加项目名
+		 		
+ -->
+	<h3 th:id="3"  id="1" th:text="${requestKey}">request域 </h3>
+	<h3 th:text="${session.sessionKey}">session域 </h3>
+	<h3 th:text="${application.appKey}==null?_:'application域:'+${application.appKey}">application域 </h3>
+	
+	
+	<!-- 获取域中的集合进行遍历 
+		遍历集合数据，每一条记录使用一个div显示  记录的每个属性使用span显示属性值
+		
+		th:if  :条件判断，如果成立，标签内部的内容才会被解析执行，最终显示到页面中，如果条件不成立内部内容不会被解析
+			th:if="${list}"    如果list集合为空或者长度为0，返回false，标签内部内容不会执行
+		th:each:  遍历
+				th:each="member:${list}"  遍历list集合，并将正在遍历的元素存到request域中，member就是属性名
+				th:each="member,status:${list}"   :status代表正在遍历的状态
+														index  正在遍历的索引
+														count  遍历的个数				
+				
+				
+		thymeleaf的三种表单式语法：
+			1、${}  从域中获取属性值使用
+			2、@{}  处理绝对路径，自动在路径前拼接项目名
+			3、~{}  引入页面片段到当前页面中		
+	-->
+	<div th:if="${list}">
+		<div th:each="member,status:${list}">
+			<span th:text="${status.count}">序列号</span>
+			<span th:text="|${member.id}10000|"></span>
+			<span th:text="${member.username}"></span>
+			<span th:text="${member.loginacct}"></span>
+			<span th:text="${member.userpswd}"></span>
+		</div>
+	</div>
+	<!-- http://localhost:10000/1.png 
+		推荐写绝对路径
+		
+		
+	-->
+	<img alt=""  th:src="@{/1.png}"  src="/1.png">
+
+	<!-- 不在标签属性值中编写thymeleaf语法内容 
+		[[thymeleaf表达式]]
+	-->
+	$:[[${requestKey}]]
+	
+	
+	
+</body>
+</html>
